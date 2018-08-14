@@ -1,0 +1,9 @@
+# Framework
+Django==2.1
+
+# Libs
+psycopg2-binary==2.7.5
+
+# Apps
+django-extensions==2.1.0
+djangorestframework==3.8.2
