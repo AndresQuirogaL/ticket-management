@@ -41,6 +41,14 @@ class Ticket(models.Model):
     def get_images_count(self):
         return self.ticketimage_set.all().count()
 
+    def get_images_list(self):
+        images_list = []
+
+        for ticket_image in self.ticketimage_set.all():
+            images_list.append(ticket_image.image.url)
+
+        return images_list
+
     def __str__(self):
         return '{0} - {1} - {2}'.format(
             self.id,
