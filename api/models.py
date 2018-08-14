@@ -33,7 +33,7 @@ class Ticket(models.Model):
         verbose_name='creado por',
     )
 
-    created_at = models.DateTimeField(
+    created_at = models.DateField(
         auto_now_add=True,
         verbose_name='fecha de creación',
     )
@@ -63,7 +63,7 @@ class TicketImage(models.Model):
 
     ticket = models.ForeignKey(
         'api.Ticket',
-        on_delete=models.CASCADE, #Esto esta embarrandola.
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):

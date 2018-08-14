@@ -1,4 +1,7 @@
+from datetime import datetime
 from rest_framework.views import APIView
+from rest_framework import generics
+
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -10,8 +13,71 @@ from api.models import PENDING_TICKET
 from api.models import COMPLETED_TICKET
 
 
-class TicketView(APIView):
-    def post(self, request, format=None):
+def get_verified_date(date):
+    initial_date_query = None
+    try:
+        initial_date_query = datetime.strptime(
+            date,
+            '%Y-%m-%d',
+        )
+
+    except ValueError:
+        pass
+
+    return initial_date_query
+
+
+class TicketView(generics.ListCreateAPIView):
+    model = Ticket
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return TicketSerializer
+        return TicketSerializer
+
+    def get_queryset(self):
+        queryset = Ticket.objects.filter(
+            created_by=self.request.user,
+        )
+
+        # Filter by status.
+        status = self.request.GET.get('status', '')
+        status_query = None
+
+        if status == 'completado':
+            status_query = COMPLETED_TICKET
+
+        elif status == 'pendiente':
+            status_query = PENDING_TICKET
+
+        if status_query:
+            queryset = queryset.filter(status=status_query)
+
+        # # Filter by date range.
+
+        # Initial Date.
+        initial_date = self.request.GET.get('initial_date', '')
+        initial_date_query = None
+
+        if initial_date:
+            initial_date_query = get_verified_date(initial_date)
+
+        if initial_date_query:
+            queryset = queryset.filter(created_at__gte=initial_date_query)
+
+        # End Date.
+        end_date = self.request.GET.get('end_date', '')
+        end_date_query = None
+
+        if end_date:
+            end_date_query = get_verified_date(end_date)
+
+        if end_date_query:
+            queryset = queryset.filter(created_at__lte=end_date_query)
+
+        return queryset
+
+    def create(self, request, *args, **kwargs):
         serializer = TicketSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(created_by=request.user)
