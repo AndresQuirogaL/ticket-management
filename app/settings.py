@@ -18,8 +18,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
+    'storages',
 
     'app',
     'api',
@@ -105,7 +107,10 @@ REST_FRAMEWORK = {
     )
 }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Local settings
+settings_file = __import__('app.local_settings').local_settings
+for setting_value in dir(settings_file):
+    locals()[setting_value] = getattr(settings_file, setting_value)

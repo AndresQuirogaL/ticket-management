@@ -3,7 +3,10 @@ Django==2.1
 
 # Libs
 psycopg2-binary==2.7.5
+Pillow==5.1.0
+boto3==1.4.6
 
 # Apps
 django-extensions==2.1.0
 djangorestframework==3.8.2
+django-storages==1.6.5
