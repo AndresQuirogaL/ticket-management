@@ -40,7 +40,7 @@ class ImageView(APIView):
         if serializer.is_valid():
             serializer.save(ticket=ticket)
 
-            if ticket.ticketimage_set.count() == ticket.images_quantity:
+            if ticket.ticketimage_set.count() >= ticket.images_quantity:
                 ticket.status = COMPLETED_TICKET
                 ticket.save()
 

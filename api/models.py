@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from django.core.exceptions import ValidationError
+
 
 from app.validators import FileSizeValidator
 
@@ -45,6 +47,12 @@ class Ticket(models.Model):
 
     class Meta:
         ordering = ('created_by',)
+
+    def clean(self):
+        if self.ticketimage_set.count() >= self.images_quantity:
+            raise ValidationError('No puede agregar mas de {} imagenes'.format(
+                self.images_quantity,
+            ))
 
 
 class TicketImage(models.Model):
