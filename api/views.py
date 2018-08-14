@@ -94,6 +94,21 @@ class TicketView(generics.ListCreateAPIView):
         )
 
 
+class TicketDetailView(generics.RetrieveAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = GetTicketSerializer
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        ticket = get_object_or_404(
+            queryset,
+            id=self.kwargs['ticket_id'],
+            created_by=self.request.user
+        )
+
+        return ticket
+
+
 class ImageView(APIView):
     def post(self, request, ticket_id, format=None):
         ticket = get_object_or_404(

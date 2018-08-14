@@ -3,6 +3,7 @@ from django.conf.urls import url
 
 from api.views import TicketView
 from api.views import ImageView
+from api.views import TicketDetailView
 
 
 urlpatterns = [
@@ -14,6 +15,11 @@ urlpatterns = [
     url(
         r'^tickets/$',
         TicketView.as_view(),
+    ),
+
+    url(
+        r'^tickets/(?P<ticket_id>\d+)/$',
+        TicketDetailView.as_view(),
     ),
 
     url(
