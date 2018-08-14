@@ -109,17 +109,25 @@ class TicketDetailView(generics.RetrieveAPIView):
         return ticket
 
 
-class ImageView(APIView):
-    def post(self, request, ticket_id, format=None):
+class ImageView(generics.CreateAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = ImageSerializer
+
+    def get_object(self):
+        queryset = self.get_queryset()
         ticket = get_object_or_404(
-            Ticket,
-            id=ticket_id,
+            queryset,
+            id=self.kwargs['ticket_id'],
             status=PENDING_TICKET,
-            created_by=request.user,
+            created_by=self.request.user
         )
 
+        return ticket
+
+    def create(self, request, *args, **kwargs):
         serializer = ImageSerializer(data=request.data)
         if serializer.is_valid():
+            ticket = self.get_object()
             serializer.save(ticket=ticket)
 
             if ticket.ticketimage_set.count() >= ticket.images_quantity:
