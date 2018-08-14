@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from api.serializers import TicketSerializer
 from api.serializers import ImageSerializer
 from api.models import Ticket
+from api.models import PENDING_TICKET
+from api.models import COMPLETED_TICKET
 
 
 class TicketView(APIView):
@@ -30,12 +32,17 @@ class ImageView(APIView):
         ticket = get_object_or_404(
             Ticket,
             id=ticket_id,
+            status=PENDING_TICKET,
             created_by=request.user,
         )
 
         serializer = ImageSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(ticket=ticket)
+
+            if ticket.ticketimage_set.count() == ticket.images_quantity:
+                ticket.status = COMPLETED_TICKET
+                ticket.save()
 
             return Response(
                 serializer.data,

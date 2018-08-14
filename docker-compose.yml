@@ -12,10 +12,13 @@ services:
     depends_on:
       - migration
       - db
+      - redis
   db:
     image: postgres:10.1
     volumes:
       - .:/tmp/data/
+  redis:
+    image: redis:3.2.8
   migration:
     image: tickets
     command: python manage.py migrate --noinput

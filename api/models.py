@@ -55,7 +55,7 @@ class TicketImage(models.Model):
 
     ticket = models.ForeignKey(
         'api.Ticket',
-        on_delete=models.CASCADE,
+        on_delete=models.CASCADE, #Esto esta embarrandola.
     )
 
     def __str__(self):
