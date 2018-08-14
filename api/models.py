@@ -38,6 +38,9 @@ class Ticket(models.Model):
         verbose_name='fecha de creación',
     )
 
+    def get_images_count(self):
+        return self.ticketimage_set.all().count()
+
     def __str__(self):
         return '{0} - {1} - {2}'.format(
             self.id,

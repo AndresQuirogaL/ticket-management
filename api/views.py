@@ -7,6 +7,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 
 from api.serializers import TicketSerializer
+from api.serializers import GetTicketSerializer
 from api.serializers import ImageSerializer
 from api.models import Ticket
 from api.models import PENDING_TICKET
@@ -33,7 +34,7 @@ class TicketView(generics.ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return TicketSerializer
-        return TicketSerializer
+        return GetTicketSerializer
 
     def get_queryset(self):
         queryset = Ticket.objects.filter(
