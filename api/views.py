@@ -11,7 +11,7 @@ from api.serializers import GetTicketSerializer
 from api.serializers import ImageSerializer
 from api.models import Ticket
 from api.models import TicketImage
-from api.tasks import upload_image_task
+# from api.tasks import upload_image_task
 from api.tasks import upload_image_from_disk_task
 from api.models import PENDING_TICKET
 from api.models import COMPLETED_TICKET
