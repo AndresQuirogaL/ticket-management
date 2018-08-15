@@ -27,6 +27,7 @@ class GetTicketSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = (
             'id',
+            'created_at',
             'images_quantity',
             'images_count',
             'current_status',

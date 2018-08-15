@@ -128,11 +128,11 @@ class ImageView(generics.CreateAPIView):
         serializer = ImageSerializer(data=request.data)
         if serializer.is_valid():
             ticket = self.get_object()
-            serializer.save(ticket=ticket)
 
-            if ticket.ticketimage_set.count() >= ticket.images_quantity:
-                ticket.status = COMPLETED_TICKET
-                ticket.save()
+            upload_image_task(
+                serializer=serializer,
+                ticket=ticket,
+            )
 
             return Response(
                 serializer.data,
