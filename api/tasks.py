@@ -41,4 +41,8 @@ def upload_image_from_disk_task(ticket_id, file_name, file_url):
     #     File(open(result[0]))
     # )
 
+    if ticket.ticketimage_set.count() >= ticket.images_quantity:
+        ticket.status = COMPLETED_TICKET
+        ticket.save()
+
     os.remove('app/static/uploads/{}'.format(file_name))
