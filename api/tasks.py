@@ -28,7 +28,7 @@ def upload_image_from_disk_task(ticket_id, file_name, file_url):
     )
     ticket_image.save()
 
-    if ticket.ticketimage_set.count() >= ticket.images_quantity:
+    if ticket.ticketimage_set.count() == ticket.images_quantity:
         ticket.status = COMPLETED_TICKET
         ticket.save()
 
