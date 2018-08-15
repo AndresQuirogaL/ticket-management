@@ -131,7 +131,7 @@ class ImageView(generics.CreateAPIView):
 
             upload_image_task(
                 serializer=serializer,
-                ticket=ticket,
+                ticket_id=ticket.id,
             )
 
             return Response(
