@@ -8,20 +8,6 @@ from api.models import Ticket
 from api.models import TicketImage
 
 
-# @db_task()
-# def upload_image_task(serializer, ticket_id):
-#     """
-#     Second level task to upload ticket images.
-#     """
-#     ticket = Ticket.objects.get(id=ticket_id)
-
-#     serializer.save(ticket=ticket)
-
-#     if ticket.ticketimage_set.count() >= ticket.images_quantity:
-#         ticket.status = COMPLETED_TICKET
-#         ticket.save()
-
-
 @db_task()
 def upload_image_from_disk_task(ticket_id, file_name, file_url):
     ticket = Ticket.objects.get(id=ticket_id)
@@ -40,6 +26,7 @@ def upload_image_from_disk_task(ticket_id, file_name, file_url):
         os.path.basename(url),
         File(open(result[0], 'rb'))
     )
+    ticket_image.save()
 
     if ticket.ticketimage_set.count() >= ticket.images_quantity:
         ticket.status = COMPLETED_TICKET

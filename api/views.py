@@ -10,8 +10,6 @@ from api.serializers import TicketSerializer
 from api.serializers import GetTicketSerializer
 from api.serializers import ImageSerializer
 from api.models import Ticket
-from api.models import TicketImage
-# from api.tasks import upload_image_task
 from api.tasks import upload_image_from_disk_task
 from api.models import PENDING_TICKET
 from api.models import COMPLETED_TICKET
@@ -142,11 +140,6 @@ class ImageView(generics.CreateAPIView):
                 file_name=file_name,
                 file_url=file_url,
             )
-
-            # upload_image_task(
-            #     serializer=serializer,
-            #     ticket_id=ticket.id,
-            # )
 
             return Response(
                 serializer.data,
