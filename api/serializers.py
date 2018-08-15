@@ -42,32 +42,8 @@ class GetTicketSerializer(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
-    ticket_id = serializers.CharField(
-        source='get_ticket_id',
-        required=False,
-    )
-
-    ticket_status = serializers.CharField(
-        source='get_ticket_status',
-        required=False,
-    )
-
-    images_count = serializers.CharField(
-        source='get_images_count',
-        required=False,
-    )
-
     class Meta:
         model = TicketImage
         fields = (
             'image',
-            'ticket_id',
-            'images_count',
-            'ticket_status',
-        )
-
-        read_only_fields = (
-            'ticket_id',
-            'images_count',
-            'ticket_status'
         )

@@ -71,15 +71,6 @@ class TicketImage(models.Model):
         on_delete=models.CASCADE,
     )
 
-    def get_ticket_id(self):
-        return self.ticket.id
-
-    def get_ticket_status(self):
-        return self.ticket.get_status_display()
-
-    def get_images_count(self):
-        return self.ticket.get_images_count()
-
     def __str__(self):
         return 'Img id:{0} - Ticket: {1}'.format(
             self.id,
