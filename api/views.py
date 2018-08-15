@@ -24,6 +24,8 @@ def get_verified_date(date):
         )
 
     except ValueError:
+        # If the date is not in the correct format,
+        # the filter will not be called.
         pass
 
     return initial_date_query
