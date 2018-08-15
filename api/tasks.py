@@ -36,9 +36,9 @@ def upload_image_from_disk_task(ticket_id, file_name, file_url):
         ticket=ticket,
     )
 
-    ticket_image.image.save(
-        os.path.basename(url),
-        File(open(result[0]))
-    )
+    # ticket_image.image.save(
+    #     os.path.basename(url),
+    #     File(open(result[0]))
+    # )
 
     os.remove('app/static/uploads/{}'.format(file_name))
