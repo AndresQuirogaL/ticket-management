@@ -59,12 +59,6 @@ class Ticket(models.Model):
     class Meta:
         ordering = ('created_by',)
 
-    def clean(self):
-        if self.ticketimage_set.count() >= self.images_quantity:
-            raise ValidationError('No puede agregar mas de {} imagenes'.format(
-                self.images_quantity,
-            ))
-
 
 class TicketImage(models.Model):
     image = models.ImageField(
@@ -76,6 +70,15 @@ class TicketImage(models.Model):
         'api.Ticket',
         on_delete=models.CASCADE,
     )
+
+    def get_ticket_id(self):
+        return self.ticket.id
+
+    def get_ticket_status(self):
+        return self.ticket.get_status_display()
+
+    def get_images_count(self):
+        return self.ticket.get_images_count()
 
     def __str__(self):
         return 'Img id:{0} - Ticket: {1}'.format(

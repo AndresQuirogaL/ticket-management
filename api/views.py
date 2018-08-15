@@ -1,5 +1,4 @@
 from datetime import datetime
-from rest_framework.views import APIView
 from rest_framework import generics
 
 from rest_framework.response import Response
@@ -10,6 +9,8 @@ from api.serializers import TicketSerializer
 from api.serializers import GetTicketSerializer
 from api.serializers import ImageSerializer
 from api.models import Ticket
+from api.models import TicketImage
+from api.tasks import upload_image_task
 from api.models import PENDING_TICKET
 from api.models import COMPLETED_TICKET
 
@@ -115,14 +116,13 @@ class ImageView(generics.CreateAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        ticket = get_object_or_404(
+
+        return get_object_or_404(
             queryset,
             id=self.kwargs['ticket_id'],
             status=PENDING_TICKET,
             created_by=self.request.user
         )
-
-        return ticket
 
     def create(self, request, *args, **kwargs):
         serializer = ImageSerializer(data=request.data)
