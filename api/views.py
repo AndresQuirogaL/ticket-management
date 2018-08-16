@@ -133,6 +133,7 @@ class ImageView(generics.CreateAPIView):
 
             folder = 'app/static/uploads/'
             image = request.FILES['image']
+
             fs = FileSystemStorage(location=folder)
             file_name = fs.save(image.name, image)
             file_url = fs.url(file_name)

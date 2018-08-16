@@ -1,7 +1,5 @@
 from django.conf import settings
 from django.db import models
-from django.core.exceptions import ValidationError
-
 
 from app.validators import FileSizeValidator
 
@@ -57,7 +55,7 @@ class Ticket(models.Model):
         )
 
     class Meta:
-        ordering = ('created_by',)
+        ordering = ('created_at',)
 
 
 class TicketImage(models.Model):
