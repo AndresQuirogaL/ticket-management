@@ -17,6 +17,7 @@ class TicketImageInline(admin.TabularInline):
 class TicketAdmin(admin.ModelAdmin):
     list_display = (
         'id',
+        'images_quantity',
         'created_by',
         'created_at',
         'status',
