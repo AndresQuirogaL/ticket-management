@@ -7,7 +7,14 @@ from api.models import TicketImage
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ('images_quantity',)
+        fields = (
+            'images_quantity',
+            'id',
+        )
+
+        read_only_fields = (
+            'id',
+        )
 
 
 class GetTicketSerializer(serializers.ModelSerializer):
